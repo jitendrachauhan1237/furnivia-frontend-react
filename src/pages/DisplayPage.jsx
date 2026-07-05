@@ -48,11 +48,11 @@ const ProductDisplayPage = () => {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 pt-28">
       <div className="grid grid-cols-1 items-start gap-12 md:grid-cols-2">
-        <div className="rounded-[2rem] border bg-white p-4 shadow-lg">
+        <div className="rounded-[2rem] border bg-white p-4 ">
           <img
             src={product.image}
             alt={product.title}
-            className="aspect-square w-full rounded-[1.5rem] object-cover"
+            className="aspect-square w-full rounded-[1.5rem] bg-cover"
           />
         </div>
 

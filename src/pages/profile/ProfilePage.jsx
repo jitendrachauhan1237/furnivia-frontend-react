@@ -1,75 +1,78 @@
 import React from "react";
-import { Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
+import { Mail, ShieldCheck } from "lucide-react";
 import { useStore } from "../../context/StoreContext";
+import { Link } from "react-router-dom";
 
 const ProfilePage = () => {
-  const { currentUser, orders, addresses, resetDemo } = useStore();
+  const { currentUser } = useStore();
 
   return (
-    <div className="mx-auto mt-[70px] min-h-screen max-w-screen-2xl bg-white text-gray-800">
-      <div className="relative h-64 w-full rounded-[2rem] bg-gradient-to-tr from-amber-700 via-orange-500 to-orange-300">
-        <div className="absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.28),_transparent_35%)]"></div>
-        <div className="absolute bottom-[-56px] left-1/2 -translate-x-1/2 transform">
-          <img
-            src={currentUser?.photoURL || "/userPfp.png"}
-            className="h-28 w-28 rounded-full border-4 border-white object-cover shadow-xl"
-            alt="Profile"
-          />
+    <div className="mx-auto min-h-screen max-w-screen-2xl bg-gray-50/50 pb-16 text-gray-800">
+      {/* Hero Banner Area */}
+      <div className="relative h-60 w-full rounded-b-[2.5rem] bg-gradient-to-tr from-amber-700 via-orange-500 to-orange-400 shadow-sm">
+        <div className="absolute inset-0 rounded-b-[2.5rem] bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.2),_transparent_40%)]"></div>
+        
+        {/* Profile Avatar Container */}
+        <div className="absolute bottom-[-48px] left-1/2 -translate-x-1/2 transform">
+          <div className="relative h-28 w-28 rounded-full border-4 border-white bg-white shadow-xl overflow-hidden">
+            <img
+              src={currentUser?.photoURL || "/userPfp.png"}
+              className="h-full w-full object-cover"
+              alt="Profile"
+            />
+          </div>
         </div>
       </div>
 
-      <div className="px-4 pb-12 pt-20">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold">{currentUser?.displayName || "Guest User"}</h2>
-          <p className="text-sm text-gray-400">{currentUser?.email}</p>
-        </div>
+      {/* User Basic Info Header */}
+      <div className="px-4 pt-16 text-center">
+        <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
+          {currentUser?.displayName || "Guest User"}
+        </h2>
+        <p className="text-sm font-medium text-gray-500 mt-1">
+          {currentUser?.email || "No email linked"}
+        </p>
+      </div>
 
-        <div className="mx-auto mt-10 grid max-w-5xl gap-6 md:grid-cols-3">
-          <div className="rounded-2xl border bg-[#f7f2ea] p-6">
-            <p className="text-sm text-gray-500">Orders placed</p>
-            <p className="mt-2 text-3xl font-bold text-gray-900">{orders.length}</p>
-          </div>
-          <div className="rounded-2xl border bg-[#f7f2ea] p-6">
-            <p className="text-sm text-gray-500">Saved addresses</p>
-            <p className="mt-2 text-3xl font-bold text-gray-900">{addresses.length}</p>
-          </div>
-          <div className="rounded-2xl border bg-[#f7f2ea] p-6">
-            <p className="text-sm text-gray-500">Member since</p>
-            <p className="mt-2 text-3xl font-bold text-gray-900">{currentUser?.memberSince}</p>
-          </div>
-        </div>
-
-        <div className="mx-auto mt-8 grid max-w-5xl gap-6 md:grid-cols-2">
-          <div className="rounded-2xl border bg-white p-6 shadow-sm">
-            <h3 className="mb-4 text-lg font-semibold">Account Details</h3>
-            <div className="space-y-4 text-sm text-gray-600">
-              <p className="flex items-center gap-3">
-                <Mail size={16} /> {currentUser?.email}
-              </p>
-              <p className="flex items-center gap-3">
-                <Phone size={16} /> {currentUser?.phone}
-              </p>
-              <p className="flex items-center gap-3">
-                <MapPin size={16} /> {currentUser?.city}
-              </p>
-              <p className="flex items-center gap-3">
-                <ShieldCheck size={16} /> Demo customer account
-              </p>
+      {/* Grid Dashboard Content */}
+      <div className="mx-auto mt-10 max-w-5xl px-4">
+        <div className="grid gap-6 md:grid-cols-2 items-start">
+          
+          {/* Account Details Card */}
+          <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-md">
+            <h3 className="mb-4 text-lg font-bold text-gray-900 tracking-wide flex items-center gap-2">
+              Account Details
+            </h3>
+            <div className="space-y-4 rounded-xl bg-gray-50 p-4 border border-gray-100">
+              <div className="flex items-center gap-3 text-sm text-gray-600">
+                <Mail size={18} className="text-amber-600 shrink-0" />
+                <span className="truncate font-medium">{currentUser?.email || "N/A"}</span>
+              </div>
             </div>
           </div>
 
-          <div className="rounded-2xl border bg-white p-6 shadow-sm">
-            <h3 className="mb-4 text-lg font-semibold">Demo Controls</h3>
-            <p className="text-sm text-gray-600">
-              Reset the fake store at any time to restore the original demo user, cart, addresses, and orders.
-            </p>
-            <button
-              onClick={resetDemo}
-              className="mt-6 rounded-full bg-amber-600 px-5 py-3 text-sm font-semibold text-white"
-            >
-              Reset Demo Data
-            </button>
+          {/* Demo Controls Card */}
+          <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between min-h-[174px]">
+            <div>
+              <h3 className="mb-2 text-lg font-bold text-gray-900 tracking-wide flex items-center gap-2">
+                <ShieldCheck size={20} className="text-amber-600" />
+                Demo Controls
+              </h3>
+              <p className="text-sm leading-relaxed text-gray-500">
+                This is a sandbox presentation layout. You are welcome to simulate administrative powers and configure stores by launching our interface below.
+              </p>
+            </div>
+            
+            <div className="mt-6">
+              <Link
+                to="/adminpanel"
+                className="inline-block rounded-xl bg-amber-600 hover:bg-amber-700 active:bg-amber-800 px-6 py-3 text-sm font-semibold text-white tracking-wide shadow-sm hover:shadow transition-all duration-200"
+              >
+                View Admin Panel
+              </Link>
+            </div>
           </div>
+
         </div>
       </div>
     </div>

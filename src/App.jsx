@@ -13,12 +13,13 @@ import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import MyOrders from "./pages/MyOrders";
 import AdminPanel from "./pages/AdminPanelDetails/AdminPanel";
+import SeedData from "./pages/SeedData";
 
 function App() {
   return (
     <Router>
       <Navbar />
-      <div>
+      <div className="max-w-screen-2xl mx-auto w-full ">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginSignup />} />
@@ -31,6 +32,7 @@ function App() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/myorders" element={<MyOrders />} />
           <Route path="/adminpanel" element={<AdminPanel />} />
+          <Route path="/seed" element={<SeedData />} />
         </Routes>
       </div>
       <Footer />

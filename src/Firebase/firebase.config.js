@@ -1,21 +1,18 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth ,GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { getFirestore, collection, getDocs, doc, deleteDoc, updateDoc, addDoc} from "firebase/firestore";
-import { getStorage } from "firebase/storage"; // Import Storage
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, updateDoc, addDoc, query, where } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
-
-
 const firebaseConfig = {
-  apiKey: "AIzaSyDnPUvxf3v9WRAFUNL9-9D8xW89OsS1D0c",
-  authDomain: "furniture-store-2-a3c95.firebaseapp.com",
-  projectId: "furniture-store-2-a3c95",
-  storageBucket: "furniture-store-2-a3c95.firebasestorage.app",
-  messagingSenderId: "220410063301",
-  appId: "1:220410063301:web:16e3788350428d9cb2c3ac",
-  measurementId: "G-WXGGCLTGSX"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
@@ -27,10 +24,8 @@ const storage = getStorage(app);
 const messaging = getMessaging(app);
 const provider = new GoogleAuthProvider();
 
-
-
-
-export {  app,
+export {
+  app,
   auth,
   analytics,
   db,
@@ -38,11 +33,18 @@ export {  app,
   collection,
   getDocs,
   doc,
+  setDoc,
   deleteDoc,
   updateDoc,
   addDoc,
+  query,
+  where,
   GoogleAuthProvider,
   signInWithPopup,
-  messaging, getToken, onMessage ,provider
- 
-}
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  messaging,
+  getToken,
+  onMessage,
+  provider
+};

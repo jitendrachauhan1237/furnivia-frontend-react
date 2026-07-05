@@ -3,24 +3,23 @@ import { AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 import useScrollToTop from "../hooks/useScrollToTop";
 import { useNavigate } from "react-router-dom";
-import { useStore } from "../context/StoreContext";
+import { auth, provider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "../Firebase/firebase.config";
 
 const LoginSignup = () => {
   useScrollToTop();
   const navigate = useNavigate();
-  const { login } = useStore();
 
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState("aarav.demo@furnivia.com");
-  const [password, setPassword] = useState("demo1234");
-  const [confirmPass, setConfirmPass] = useState("demo1234");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
   const [error, setError] = useState("");
 
   const resetForm = () => {
     setError("");
   };
 
-  const handleEmailAuth = (e) => {
+  const handleEmailAuth = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -28,14 +27,26 @@ const LoginSignup = () => {
       return setError("Passwords do not match");
     }
 
-    login({ email });
-    resetForm();
-    navigate("/", { replace: true });
+    try {
+      if (isLogin) {
+        await signInWithEmailAndPassword(auth, email, password);
+      } else {
+        await createUserWithEmailAndPassword(auth, email, password);
+      }
+      resetForm();
+      navigate("/", { replace: true });
+    } catch (err) {
+      setError(err.message || "Failed to authenticate");
+    }
   };
 
-  const handleGoogleSignIn = () => {
-    login({ email: "google.demo@furnivia.com" });
-    navigate("/", { replace: true });
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, provider);
+      navigate("/", { replace: true });
+    } catch (err) {
+      setError(err.message || "Google sign-in failed");
+    }
   };
 
   return (
@@ -43,18 +54,17 @@ const LoginSignup = () => {
       <div className="relative flex min-h-[560px] w-full max-w-4xl overflow-hidden rounded-[2rem] bg-white shadow-xl">
         <div className="hidden w-1/2 bg-[#2f241f] p-10 text-white md:flex md:flex-col md:justify-between">
           <div>
-            <p className="mb-4 text-xs uppercase tracking-[0.4em] text-orange-200">Demo access</p>
+            <p className="mb-4 text-xs uppercase tracking-[0.4em] text-orange-200">Welcome</p>
             <h2 className="text-4xl font-bold leading-tight">
-              A polished furniture storefront, ready without backend setup.
+              A polished furniture storefront, ready for you.
             </h2>
             <p className="mt-6 text-sm text-orange-50/80">
-              Use the prefilled demo credentials or continue with one click to preview cart, checkout, profile, and orders.
+              Sign in or create an account to preview your cart, checkout, profile, and orders seamlessly synced with Firebase.
             </p>
           </div>
           <div className="rounded-3xl bg-white/10 p-6">
-            <p className="text-sm text-orange-100">Demo account</p>
-            <p className="mt-2 font-semibold">aarav.demo@furnivia.com</p>
-            <p className="text-sm text-orange-100">Password: demo1234</p>
+            <p className="text-sm text-orange-100">Secure Authentication</p>
+            <p className="mt-2 font-semibold">Powered by Firebase</p>
           </div>
         </div>
 
@@ -131,7 +141,7 @@ const LoginSignup = () => {
                   type="submit"
                   className="w-full rounded-xl bg-amber-600 py-3 font-semibold text-white transition hover:bg-orange-600"
                 >
-                  {isLogin ? "Login to Demo" : "Create Demo Account"}
+                  {isLogin ? "Login" : "Create Account"}
                 </button>
                 <div className="my-2 flex items-center justify-center">
                   <span className="text-sm text-gray-500">or</span>
@@ -143,7 +153,7 @@ const LoginSignup = () => {
                 >
                   <FcGoogle size={24} />
                   <span className="text-sm font-medium text-gray-700">
-                    Continue with Google Demo
+                    Continue with Google
                   </span>
                 </button>
               </form>

@@ -2,7 +2,7 @@ import { LayoutDashboard, ShoppingBag, Users, BarChart3, Settings } from "lucide
 
 const Sidebar = () => {
   return (
-    <div className="w-64 space-y-6 bg-white p-6 shadow-lg">
+    <div className="w-64 space-y-6 bg-white p-6 ">
       <h1 className="mb-4 text-xl font-bold text-amber-600">Admin Panel</h1>
       <nav className="space-y-4 text-gray-800">
         <a href="#overview" className="flex items-center gap-2 hover:text-amber-600">

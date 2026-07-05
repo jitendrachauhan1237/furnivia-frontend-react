@@ -23,14 +23,21 @@ const Navbar = () => {
 
   const drawerCheckboxRef = useRef(null);
   const dropdownRef = useRef(null);
+  const megaMenuRef = useRef(null); // Ref for closing the shop menu on outside click
   const navigate = useNavigate();
   const { categories, products, currentUser, cartItems } = useStore();
 
+  // Handle outside clicks for Search Dropdown AND Mega Menu
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Close search results
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSearchQuery("");
         setSearchResults([]);
+      }
+      // Close mega menu
+      if (megaMenuRef.current && !megaMenuRef.current.contains(event.target)) {
+        setShowMegaMenu(false);
       }
     };
 
@@ -85,7 +92,7 @@ const Navbar = () => {
           />
           <div>
             <p className="text-sm font-medium text-gray-700">{product.title}</p>
-            <p className="text-xs text-amber-500">{product.category}</p>
+            <p className="text-xs text-amber-800">{product.category}</p>
           </div>
         </li>
       ))}
@@ -112,23 +119,20 @@ const Navbar = () => {
               </button>
             </div>
 
-            <div className="mx-auto text-xl font-bold text-amber-500 md:mx-0 md:mr-6">
-              <Link to="/"><img src="src/assets/logo.png" alt="" className="h-10"/></Link>
+            <div className="mx-auto text-xl font-bold text-amber-800 md:mx-0 md:mr-6">
+              <Link to="/"><img src="/logo.png" alt="Furnivia Logo" className="h-10"/></Link>
             </div>
 
             <div className="hidden items-center space-x-6 text-sm font-medium text-gray-700 md:flex">
-              <Link to="/" className="text-amber-500">Home</Link>
+              <Link to="/" className="text-amber-800">Home</Link>
 
-              <div
-                className="relative"
-                onMouseEnter={() => setShowMegaMenu(true)}
-                onMouseLeave={() => setShowMegaMenu(false)}
-              >
+              {/* Click-triggered Mega Menu Wrapper */}
+              <div className="relative" ref={megaMenuRef}>
                 <button
-                  onClick={() => setShowMegaMenu(!showMegaMenu)}
-                  className="flex items-center gap-1 font-semibold text-gray-800 hover:text-amber-500"
+                  onClick={() => setShowMegaMenu((prev) => !prev)}
+                  className="flex items-center gap-1 font-semibold text-gray-800 hover:text-amber-800"
                 >
-                  Shop <ChevronDown className="h-4 w-4" />
+                  Shop <ChevronDown className={`h-4 w-4 transition-transform ${showMegaMenu ? "rotate-180" : ""}`} />
                 </button>
 
                 <AnimatePresence>
@@ -154,9 +158,9 @@ const Navbar = () => {
                 </AnimatePresence>
               </div>
 
-              <Link to="/about" className="hover:text-amber-500">About</Link>
-              <Link to="/contact" className="hover:text-amber-500">Contact</Link>
-              <Link to="/adminpanel" className="hover:text-amber-500">Demo Admin</Link>
+              <Link to="/about" className="hover:text-amber-800">About</Link>
+              <Link to="/contact" className="hover:text-amber-800">Contact</Link>
+              <Link to="/adminpanel" className="hover:text-amber-800">Demo Admin</Link>
             </div>
 
             <div
@@ -203,7 +207,7 @@ const Navbar = () => {
                 <Link to="/cart">
                   <ShoppingCart size={20} className="text-gray-700" />
                 </Link>
-                <span className="absolute -right-2 -top-2 rounded-full bg-amber-500 px-1 text-xs text-white">
+                <span className="absolute -right-2 -top-2 rounded-full bg-amber-800 px-1 text-xs text-white">
                   {cartCount}
                 </span>
               </div>
@@ -282,7 +286,7 @@ const Navbar = () => {
                               setIsMenuOpen(false);
                               setShowMegaMenu(false);
                             }}
-                            className="text-gray-700 hover:text-amber-500"
+                            className="text-gray-700 hover:text-amber-800"
                           >
                             {cat}
                           </Link>
